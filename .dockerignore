@@ -1,0 +1,7 @@
+Dockerfile
+*.md
+dist/*
+.git*
+deploy.sh
+Jenkisfile
+node_modules
