@@ -16,7 +16,7 @@ pipeline {
 
                 //timestamps{
                  //sh 'echo $BULD_TIMESTAMP'
-                }
+                //}
                  sh 'docker-compose build'
 
                 // To run Maven on a Windows agent, use
