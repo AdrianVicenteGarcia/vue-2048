@@ -11,14 +11,6 @@ pipeline {
 
     stages {
 
-
-      stage('Demo') {
-
-        echo 'Hello World'
-
-        sayHello 'Adrian'
-
-      }
         stage('Build') {
             steps {
                 // Get some code from a GitHub repository
