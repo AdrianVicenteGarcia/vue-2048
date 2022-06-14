@@ -5,6 +5,12 @@ pipeline {
 
     ansiColor('xterm')
 
+      timestamps{
+
+         sh 'echo $BULD_TIMESTAMP'
+
+                 }
+
             }
 
     stages {
