@@ -1,3 +1,4 @@
+@Library('pipeline-library-demo')_
 pipeline {
     agent any
 
@@ -9,7 +10,7 @@ pipeline {
             }
 
     stages {
-      @Library('pipeline-library-demo')_
+
 
       stage('Demo') {
 
