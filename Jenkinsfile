@@ -2,14 +2,9 @@ pipeline {
     agent any
 
     options{
-
+    timestamps()
     ansiColor('xterm')
 
-      timestamps{
-
-         sh 'echo $BULD_TIMESTAMP'
-
-                 }
 
             }
 
@@ -19,8 +14,8 @@ pipeline {
                 // Get some code from a GitHub repository
                 // Run Maven on a Unix agent.
 
-                timestamps{
-                 sh 'echo $BULD_TIMESTAMP'
+                //timestamps{
+                 //sh 'echo $BULD_TIMESTAMP'
                 }
                  sh 'docker-compose build'
 
