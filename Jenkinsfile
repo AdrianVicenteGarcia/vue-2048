@@ -9,6 +9,15 @@ pipeline {
             }
 
     stages {
+      @Library('pipeline-library-demo')_
+
+      stage('Demo') {
+
+        echo 'Hello World'
+
+        sayHello 'Adrian'
+
+      }
         stage('Build') {
             steps {
                 // Get some code from a GitHub repository
