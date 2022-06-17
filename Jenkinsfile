@@ -15,7 +15,7 @@ pipeline {
         stage('qa'){
           steps{
 
-            sh "trivy filesystem -f json vue-2048/"
+            sh "trivy fs vue-2048"
 
 
           }
