@@ -14,7 +14,7 @@ pipeline {
 
         stage('Trivy') {
                     steps {
-                        sh "trivy image -f json -o results.json my-apache2"
+                        sh "trivy image -f json -o results.json nginx"
                         recordIssues(tools: [trivy(pattern: 'results.json')])
                     }
                 }
