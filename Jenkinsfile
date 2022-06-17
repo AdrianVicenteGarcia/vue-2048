@@ -14,7 +14,7 @@ pipeline {
 
         stage('Trivy') {
                     steps {
-                        sh "trivy image -f json -o results.json nginx:latest"
+                        sh "trivy filesystem -f json -o results.json ."
                         recordIssues(tools: [trivy(pattern: 'results.json')])
                     }
                 }
@@ -33,16 +33,16 @@ pipeline {
                 // bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
 
-            //post {
+            post {
                 // If Maven was able to run the tests, even if some of the test
                 // failed, record the test results and archive the jar file.
-             //  success {
+               success {
 
-              // recordIssues(tools:[trivy(pattern: 'results.json')])
+               recordIssues(tools:[trivy(pattern: 'results.json')])
             //        junit '*build/test-results/test/TEST-*.xml'
             //        archiveArtifacts 'build/libs/*.jar'
-              // }
-           // }
+               }
+            }
         }
         stage('Publish') {
         steps{
