@@ -11,6 +11,19 @@ pipeline {
 
     stages {
 
+
+        stage('qa'){
+          steps{
+
+            sh "trivy filesystem -f json vue-2048/"
+
+
+          }
+
+
+
+        }
+
         stage('Build') {
             steps {
                 // Get some code from a GitHub repository
@@ -25,14 +38,16 @@ pipeline {
                 // bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
 
-            //post {
+            post {
                 // If Maven was able to run the tests, even if some of the test
                 // failed, record the test results and archive the jar file.
-            //    success {
+               success {
+
+               recordIssues(tools:[trivy(pattern: 'results.json')])
             //        junit '*build/test-results/test/TEST-*.xml'
             //        archiveArtifacts 'build/libs/*.jar'
-            //    }
-            //}
+               }
+            }
         }
         stage('Publish') {
         steps{
