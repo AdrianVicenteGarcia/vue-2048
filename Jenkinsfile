@@ -30,8 +30,8 @@ pipeline {
               sh "docker-compose build"
             }
 
-          post {
-                        success {
+          //post {
+                        //success {
                             //junit 'build/test-results/test/*.xml'
                             //archiveArtifacts 'build/libs/*.jar'
                             //jacoco()
@@ -40,9 +40,9 @@ pipeline {
                          //recordIssues(tools: [trivy(pattern: 'results.json')])
                          //recordIssues(tools: [trivy(pattern: 'results2.json')])
 
-                        }
+                        //}
 
-          }
+          //}
 
         }
 
