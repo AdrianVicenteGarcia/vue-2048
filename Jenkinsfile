@@ -8,6 +8,7 @@ pipeline {
             stage('Parallel 1'){
               steps{
                   sh "trivy filesystem -f json -o results.json ."
+                  recordIssues(tools: [trivy(pattern: 'results.json')])
 
               }
             }
@@ -15,6 +16,7 @@ pipeline {
               steps{
 
                     sh "trivy image -f json -o results2.json nginx:latest"
+                    recordIssues(tools: [trivy(pattern: 'results2.json')])
 
               }
 
@@ -35,7 +37,7 @@ pipeline {
                             //jacoco()
                             //recordIssues(tools: [pmdParser(pattern: 'build/reports/pmd/*.xml')])
                             //recordIssues(tools: [pit(pattern: 'build/reports/pitest/*.xml')])
-                         recordIssues(tools: [trivy(pattern: 'results.json')])
+                         //recordIssues(tools: [trivy(pattern: 'results.json')])
                          //recordIssues(tools: [trivy(pattern: 'results2.json')])
 
                         }
