@@ -1,13 +1,28 @@
-
 pipeline {
     agent any
     stages{
 
-        stage('Qa') {
-                    steps {
-                      sh "trivy filesystem -f json -o results.json ."
-                    }
-        }
+        stage('Parallel qa') {
+          parallel{
+
+            stage('Parallel 1'){
+              steps{
+                  sh "trivy filesystem -f json -o results.json ."
+
+              }
+            }
+            stage('Paralel 2'){
+              steps{
+
+                    sh "trivy image -f json -o results2.json nginx:latest"
+
+              }
+
+            }
+
+            }
+
+          }
         stage('Build') {
             steps {
               sh "docker-compose build"
