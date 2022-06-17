@@ -12,17 +12,12 @@ pipeline {
     stages {
 
 
-        stage('qa'){
-          steps{
-
-            sh "trivy fs vue-2048"
-
-
-          }
-
-
-
-        }
+        stage('Trivy') {
+                    steps {
+                        sh "trivy image -f json -o results.json my-apache2"
+                        recordIssues(tools: [trivy(pattern: 'results.json')])
+                    }
+                }
 
         stage('Build') {
             steps {
