@@ -15,7 +15,7 @@ pipeline {
             stage('Paralel 2'){
               steps{
 
-                    sh "trivy image -f json -o results2.json nginx:latest"
+                    sh "trivy image -f json -o results2.json adriangarcia33/2048:latest"
                     recordIssues(tools: [trivy(id:'secondone',pattern: 'results2.json')])
 
               }
