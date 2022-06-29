@@ -59,7 +59,7 @@ pipeline {
         stage('DockerHub'){
           steps{
           withCredentials([usernamePassword(credentialsId: 'adriangarcia33', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-            sh "echo '${PASS}' | docker login -u '${USER}' --password-stdin"
+            sh "echo'${PASS}' | docker login -u '${USER}' --password-stdin"
              sh 'docker tag adriangarcia33/2048 ${USER}/2048:latest'
              sh 'docker tag adriangarcia33/2048 ${USER}/2048:BUILD-1.0.${BUILD_NUMBER}'
              sh 'docker push ${USER}/2048:latest'
