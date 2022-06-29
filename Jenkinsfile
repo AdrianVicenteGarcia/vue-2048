@@ -65,6 +65,10 @@ pipeline {
              sh 'docker push ${USER}/2048:latest'
              sh 'docker push ${USER}/2048:BUILD-1.0.${BUILD_NUMBER}'
           }
+          withCredentials([usernamePassword(credentialsId: 'adriangarcia3', passwordVariable: 'gitPassword', usernameVariable: 'gitUsername')]) {
+                              sh "echo '${gitPassword}' | docker login ghcr.io -u '${gitUsername}' --password-stdin"
+                              sh 'docker push ghcr.io/adriangarcia33/2048:latest'
+                          }
 
         }
     }
