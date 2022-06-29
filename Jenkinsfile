@@ -8,7 +8,7 @@ pipeline {
             stage('Parallel 1'){
               steps{
                   sh "trivy filesystem -f json -o results.json ."
-                  recordIssues(tools: [trivy(id:'nices',pattern: 'results.json')])
+                  recordIssues(tools: [trivy(id:'1',pattern: 'results.json')])
 
               }
             }
@@ -16,7 +16,7 @@ pipeline {
               steps{
 
                     sh "trivy image -f json -o results2.json nginx:latest"
-                    recordIssues(tools: [trivy(id:'images',pattern: 'results2.json')])
+                    recordIssues(tools: [trivy(id:'2',pattern: 'results2.json')])
 
               }
 
@@ -60,8 +60,8 @@ pipeline {
           steps{
           withCredentials([usernamePassword(credentialsId: 'adriangarcia33', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
             sh "echo '${PASS}' | docker login -u '${USER}' --password-stdin"
-             sh 'docker tag server-vue ${USER}/2048:latest'
-             sh 'docker tag server-vue ${USER}/2048:BUILD-1.0.${BUILD_NUMBER}'
+             sh 'docker tag adriangarcia33/2048 ${USER}/2048:latest'
+             sh 'docker tag adriangarcia33/2048 ${USER}/2048:BUILD-1.0.${BUILD_NUMBER}'
              sh 'docker push ${USER}/2048:latest'
              sh 'docker push ${USER}/2048:BUILD-1.0.${BUILD_NUMBER}'
           }
