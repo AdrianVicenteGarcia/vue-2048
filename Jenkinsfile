@@ -8,7 +8,7 @@ pipeline {
             stage('Parallel 1'){
               steps{
                   sh "trivy filesystem -f json -o results.json ."
-                  recordIssues(tools: [trivy(pattern: 'results.json')])
+                  recordIssues(tools: [trivy(id:'image',pattern: 'results.json')])
 
               }
             }
@@ -16,7 +16,7 @@ pipeline {
               steps{
 
                     sh "trivy image -f json -o results2.json nginx:latest"
-                    recordIssues(tools: [trivy(pattern: 'results2.json')])
+                    recordIssues(tools: [trivy(id:'image',pattern: 'results2.json')])
 
               }
 
@@ -54,5 +54,15 @@ pipeline {
                     }
                 }
             }
+
+
+        stage('DockerHub'){
+          steps{
+          withCredentials([usernamePassword(credentialsId: 'adriangarcia33', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+            sh "echo '${PASS}' | docker login -u '${USER}' --password-stdin"
+            sh 'docker push adriangarcia33/2048:v3'
+          }
+
         }
     }
+}
