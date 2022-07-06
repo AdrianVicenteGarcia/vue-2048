@@ -2,29 +2,29 @@ pipeline {
     agent any
     stages{
 
-        stage('Parallel qa') {
-          parallel{
+       // stage('Parallel qa') {
+       //   parallel{
 
-            stage('Parallel 1'){
-              steps{
-                  sh "trivy filesystem -f json -o results.json ."
-                  recordIssues(tools: [trivy(id:'firstone',pattern: 'results.json')])
+       //     stage('Parallel 1'){
+       //       steps{
+       //           sh "trivy filesystem -f json -o results.json ."
+       //           recordIssues(tools: [trivy(id:'firstone',pattern: 'results.json')])
 
-              }
-            }
-            stage('Paralel 2'){
-              steps{
+       //       }
+       //     }
+       //     stage('Paralel 2'){
+       //       steps{
 
-                    sh "trivy image -f json -o results2.json adriangarcia33/2048:latest"
-                    recordIssues(tools: [trivy(id:'secondone',pattern: 'results2.json')])
+       //             sh "trivy image -f json -o results2.json adriangarcia33/2048:latest"
+       //             recordIssues(tools: [trivy(id:'secondone',pattern: 'results2.json')])
 
-              }
+       //       }
 
-            }
+       //     }
 
-            }
+       //     }
 
-          }
+       //   }
         stage('Build') {
             steps {
               sh "docker-compose build"
@@ -76,9 +76,9 @@ pipeline {
         }
         stage('Ansible'){
                     steps {
-                      withAWS(credentials: 'CredencialesAWS', profile: 'default', region: 'eu-west-1') {
-                          // some block
-                      }
+                     // withAWS(credentials: 'CredencialesAWS', profile: 'default', region: 'eu-west-1') {
+                          ansiblePlaybook credentialsId: 'CredencialesAWS', disableHostKeyChecking: true, playbook: '/home/sinensia/ansible/tas-docker-full.yaml'
+                     // }
                }
         }
     }
