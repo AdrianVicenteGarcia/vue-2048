@@ -74,6 +74,13 @@ pipeline {
                           }
 
         }
+        stage('Ansible'){
+                    steps {
+                      withAWS(credentials: 'CredencialesAWS', profile: 'default', region: 'eu-west-1') {
+                          // some block
+                      }
+               }
+        }
     }
 }
 }
