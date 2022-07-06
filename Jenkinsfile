@@ -48,7 +48,7 @@ pipeline {
 
         stage('Publish') {
                  steps {
-                    sshagent(['git-1']){
+                    sshagent(['git-private']){
                         sh 'git tag BUILD-1.0.${BUILD_NUMBER}'
                         sh 'git push --tags'
                     }
