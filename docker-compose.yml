@@ -2,6 +2,7 @@ version: "3.0"
 services:
   vue-2048:
     image: adriangarcia33/2048:latest
+    restart: always
     build: .
     ports:
       - "80:80"
