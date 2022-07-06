@@ -76,8 +76,8 @@ pipeline {
         }
         stage('Ansible'){
                     steps {
-                     // withAWS(credentials: 'CredencialesAWS', profile: 'default', region: 'eu-west-1') {
-                          ansiblePlaybook credentialsId: 'CredencialesAWS', disableHostKeyChecking: true, playbook: '/home/sinensia/ansible/tas-docker-full.yaml'
+                      withAWS(credentials: 'CredencialesAWS', region: 'eu-west-1') {
+                          ansiblePlaybook credentialsId: 'key-aws', disableHostKeyChecking: true, playbook: '/home/sinensia/ansible/tas-docker-full.yaml'
                      // }
                }
         }
