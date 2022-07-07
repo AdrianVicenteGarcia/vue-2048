@@ -78,8 +78,10 @@ pipeline {
 
     stage('Terraform'){
       steps {
-        sh 'terraform init'
-        sh 'terraform apply -input=false /home/sinensia/vue-2048/terraform/main.tf'
+        withAWS(credentials: 'CredencialesAWS', region: 'eu-west-1') {
+          sh 'terraform -chdir=terraform/ init'
+          sh 'terraform -chdir=terraform/ apply -input=false -auto-approve'
+        }
       }
     }
     stage('Ansible') {
