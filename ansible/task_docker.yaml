@@ -1,0 +1,27 @@
+---
+- hosts: docker
+  become: true
+  tasks:
+    - name: Install docker
+      yum:
+        name: docker
+
+    - name: Install docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0555'
+
+    - name: Starting service
+        copy:
+          src: /home/sinensia/vue-2048/docker-compose.yml
+          dest: /opt/docker/
+          mode: '0755'
+
+    - name: Copy the application
+      copy:
+        src: /home/sinensia/vue-2048/docker-compose.yml
+        dest: /opt/docker/
+        mode: '0755'
+
+

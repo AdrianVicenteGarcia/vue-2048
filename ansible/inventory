@@ -1,0 +1,4 @@
+[docker]
+34.246.171.20 ansible_user=ec2-user
+
+

@@ -1,0 +1,64 @@
+---
+
+- name: Automatizar
+  hosts: localhost
+  gather_facts: false
+  vars:
+    keypair: aws-key-pub
+    instance_type: t2.micro
+    security_group: launch-wizard-3
+    subnet_id: subnet-02d7cf3e65eeb1c29
+    image: ami-0d71ea30463e0ff8d
+    region: eu-west-1
+  tasks:
+    - name: Launch instance
+      ec2:
+        key_name: "{{ keypair }}"
+        group: "{{ security_group }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        wait: true
+        region: "{{ region }}"
+        vpc_subnet_id: "{{ subnet_id }}"
+        assign_public_ip: yes
+        instance_tags:
+          Name: ansibleInstance
+      register: ec2
+
+    - name: Add new instance to host group
+      add_host:
+        hostname: "{{ item.public_ip }}"
+        groupname: launched
+      loop: "{{ ec2.instances }}"
+
+    - name: Wait for SSH to come up
+      delegate_to: "{{ item.public_dns_name }}"
+      wait_for_connection:
+        delay: 10
+        sleep: 5
+        timeout: 300
+      vars:
+        ansible_user: ec2-user
+      loop: "{{ ec2.instances }}"
+
+- name: Configure instance(s)
+  hosts: launched
+  become: True
+  vars:
+    ansible_user: ec2-user
+  gather_facts: True
+  tasks:
+    - name: Install apache2 httpd
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Start apache2 service
+      service:
+          name: httpd
+          state: started
+
+    - name: Git vue-2048
+      copy:
+          src: /home/sinensia/vue-2048/dist/
+          dest: /var/www/html/

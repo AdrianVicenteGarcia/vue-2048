@@ -1,0 +1,29 @@
+---
+- hosts: java
+  become: true
+  tasks:
+    - name: Install java runtime
+      command: amazon-linux-extras install java-openjdk11 -y
+
+
+    - name: Copy file for Springboot
+      copy:
+        src: /home/sinensia/SpringTest/build/libs/SpringTest-0.0.1-SNAPSHOT.jar
+        dest: /opt/springtesting/
+        mode: '0755'
+
+
+    - name: Running
+      command: ln -s /opt/springtesting/SpringTest-0.0.1-SNAPSHOT.jar /etc/init.d/springtesting
+
+    - name: Starting
+      command: service springtesting start
+
+
+
+
+
+
+
+
+
