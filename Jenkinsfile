@@ -78,7 +78,7 @@ pipeline {
 
     stage('Terraform'){
       steps {
-        withAWS(credentials: 'CredencialesAWS', region: 'eu-west-1') {
+        withAWS(credentials: 'AWS', region: 'eu-west-1') {
           sh 'terraform -chdir=terraform/ init'
           sh 'terraform -chdir=terraform/ apply -input=false -auto-approve'
         }
@@ -86,7 +86,7 @@ pipeline {
     }
     stage('Ansible') {
       steps {
-        withAWS(credentials: 'CredencialesAWS', region: 'eu-west-1') {
+        withAWS(credentials: 'AWS', region: 'eu-west-1') {
           ansiblePlaybook credentialsId: 'key-aws', disableHostKeyChecking: true, playbook: 'ansible/tas_docker_full.yaml'
         }
       }
