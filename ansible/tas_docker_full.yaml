@@ -30,15 +30,15 @@
 #        groupname: launched
 #      loop: "{{ ec2.instances }}"
 
-- name: Wait for SSH to come up
-  delegate_to: "{{ item.public_dns_name }}"
-  wait_for_connection:
-    delay: 10
-    sleep: 5
-    timeout: 300
-  vars:
-    ansible_user: ec2-user
-  loop: "{{ ec2.instances }}"
+#- name: Wait for SSH to come up
+#  delegate_to: "{{ item.public_dns_name }}"
+#  wait_for_connection:
+#    delay: 10
+#    sleep: 5
+#    timeout: 300
+#  vars:
+#    ansible_user: ec2-user
+#  loop: "{{ ec2.instances }}"
 
 - name: Configure instances
   hosts: launched
