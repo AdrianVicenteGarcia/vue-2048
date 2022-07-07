@@ -79,13 +79,13 @@ pipeline {
     stage('Terraform'){
       steps {
         sh 'terraform init'
-        sh 'terraform apply -input=false /home/sinensia/Desktop/vue-2048/terraform/main.tf'
+        sh 'terraform apply -input=false /home/sinensia/vue-2048/terraform/main.tf'
       }
     }
     stage('Ansible') {
       steps {
         withAWS(credentials: 'CredencialesAWS', region: 'eu-west-1') {
-          ansiblePlaybook credentialsId: 'key-aws', disableHostKeyChecking: true, playbook: 'ansible/tas_docker_full.yaml'
+          ansiblePlaybook credentialsId: 'key-aws', disableHostKeyChecking: true, playbook: '/home/sinensia/vue-2048/ansible/tas_docker_full.yaml'
         }
       }
     }
