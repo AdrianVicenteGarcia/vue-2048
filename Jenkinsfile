@@ -75,6 +75,13 @@ pipeline {
 
       }
     }
+
+    stage('Terraform'){
+      steps {
+        sh 'terraform init'
+        sh 'terraform apply -input=false /home/sinensia/Desktop/vue-2048/terraform/main.tf'
+      }
+    }
     stage('Ansible') {
       steps {
         withAWS(credentials: 'CredencialesAWS', region: 'eu-west-1') {
