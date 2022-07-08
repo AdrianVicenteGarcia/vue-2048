@@ -87,7 +87,7 @@ pipeline {
     stage('Ansible') {
       steps {
         withAWS(credentials: 'AWS', region: 'eu-west-1') {
-          ansiblePlaybook credentialsId: 'key-aws', disableHostKeyChecking: true, playbook: 'ansible/tas_docker_full.yaml'
+          ansiblePlaybook credentialsId: 'key-aws', disableHostKeyChecking: true, inventory:'ansible/aws_ec2.yaml', playbook: 'ansible/tas_docker_full.yaml'
         }
       }
     }
