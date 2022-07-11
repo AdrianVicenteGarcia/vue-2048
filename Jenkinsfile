@@ -49,7 +49,7 @@ pipeline {
     stage('Publish') {
       steps {
         sshagent(['git-private-key']) {
-          sh 'git tag yaVAss'
+          sh 'git tag qwerty'
           sh 'git push --tags'
         }
       }
@@ -76,21 +76,30 @@ pipeline {
 //      }
 //   }
 
-    stage('Terraform'){
+//    stage('Terraform'){
+//      steps {
+//        withAWS(credentials: 'AWS', region: 'eu-west-1') {
+//          sh 'terraform -chdir=terraform/ init'
+//          sh 'terraform -chdir=terraform/ apply -input=false -auto-approve'
+//        }
+//      }
+//    }
+//    stage('Ansible') {
+//      steps {
+//        withAWS(credentials: 'AWS', region: 'eu-west-1') {
+//          ansiblePlaybook credentialsId: 'key-aws', disableHostKeyChecking: true, inventory:'ansible/aws_ec2.yaml', playbook: 'ansible/tas_docker_full.yaml'
+//        }
+//      }
+//    }
+    stage('Minikube') {
       steps {
-        withAWS(credentials: 'AWS', region: 'eu-west-1') {
-          sh 'terraform -chdir=terraform/ init'
-          sh 'terraform -chdir=terraform/ apply -input=false -auto-approve'
-        }
-      }
-    }
-    stage('Ansible') {
-      steps {
-        withAWS(credentials: 'AWS', region: 'eu-west-1') {
-          ansiblePlaybook credentialsId: 'key-aws', disableHostKeyChecking: true, inventory:'ansible/aws_ec2.yaml', playbook: 'ansible/tas_docker_full.yaml'
+        withKubeConfig(caCertificate: '', clusterName: 'minikube', contextName: '', credentialsId: 'CertificadoMK', namespace: 'default', serverUrl: 'https://192.168.49.2:8443') {
+          sh 'kubectl apply -f vue2048.yaml'
         }
       }
     }
   }
 }
+
+
 
