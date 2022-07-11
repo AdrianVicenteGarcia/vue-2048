@@ -49,7 +49,7 @@ pipeline {
     stage('Publish') {
       steps {
         sshagent(['git-private-key']) {
-          sh 'git tag qwerty'
+          sh 'git tag qwertys'
           sh 'git push --tags'
         }
       }
